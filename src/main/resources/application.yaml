@@ -1,0 +1,68 @@
+spring:
+  application:
+    name: spring-modules-kit
+
+  config:
+    import:
+      - optional:classpath:config/media-profiles.yml
+
+  messages:
+    basename: messages/messages
+    encoding: UTF-8
+    fallback-to-system-locale: false
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  datasource:
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: ${POSTGRES_DRIVER:org.postgresql.Driver}
+
+  jpa:
+    hibernate:
+      ddl-auto: ${HIBERNATE_DDL_AUTO:update}
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+
+payments:
+  success-url: ${PAYMENTS_SUCCESS_URL:http://localhost:3000/checkout/success}
+  cancel-url: ${PAYMENTS_CANCEL_URL:http://localhost:3000/checkout/cancel}
+  paysera:
+    project-id: ${PAYSERA_PROJECT_ID:}
+    sign-password: ${PAYSERA_SIGN_PASSWORD:}
+  stripe:
+    api-key: ${STRIPE_API_KEY}
+    webhook-secret: ${STRIPE_WEBHOOK_SECRET}
+
+app:
+  seed:
+    enabled: ${APP_SEED_ENABLED:false}
+  storage:
+    upload-dir: ./storage/uploads
+    public-path: /uploads
+  jwt:
+    secret: ${JWT_SECRET}
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:3000}
+
+oauth2:
+  google:
+    client-id: ${OAUTH2_GOOGLE_CLIENT_ID:}
+    client-secret: ${OAUTH2_GOOGLE_CLIENT_SECRET:}
+    redirect-uri: ${OAUTH2_GOOGLE_REDIRECT_URI:http://localhost:8080/oauth2/callback}
+  facebook:
+    client-id: ${OAUTH2_FACEBOOK_CLIENT_ID:}
+    client-secret: ${OAUTH2_FACEBOOK_CLIENT_SECRET:}
+    redirect-uri: ${OAUTH2_FACEBOOK_REDIRECT_URI:http://localhost:8080/oauth2/callback}
+  frontend-redirect-uri: ${OAUTH2_FRONTEND_REDIRECT_URI:http://localhost:3000}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
